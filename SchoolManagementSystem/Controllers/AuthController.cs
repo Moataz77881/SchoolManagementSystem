@@ -15,5 +15,11 @@ namespace SchoolManagementSystem.Controllers
         {
             return this.ToActionResult(await _userAuthService.CheckUserExistAsync(loginDto));
         }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
+            return this.ToActionResult(await _userAuthService.RegisterAsync(registerDto));
+        }
     }
 }

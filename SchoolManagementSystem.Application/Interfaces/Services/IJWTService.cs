@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SchoolManagementSystem.Domain.Entities;
+using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

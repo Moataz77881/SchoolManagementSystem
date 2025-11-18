@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SchoolManagementSystem.Domain.Entities;
+using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +57,7 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
                 Email = "admin@test.com",
                 NormalizedEmail = "ADMIN@TEST.COM",
                 CreateDate = DateTime.Now,
+                RoleName = "Admin".ToLower()
             };
 
             admin.PasswordHash = hasher.HashPassword(admin, "Admin123!");

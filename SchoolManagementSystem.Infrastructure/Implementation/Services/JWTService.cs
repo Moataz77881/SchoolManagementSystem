@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagementSystem.Application.Interfaces.Services;
-using SchoolManagementSystem.Domain.Entities;
+using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

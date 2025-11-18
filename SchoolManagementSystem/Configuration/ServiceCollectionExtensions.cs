@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using SchoolManagementSystem.Application.Interfaces.Services;
-using SchoolManagementSystem.Domain.Entities;
+using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using SchoolManagementSystem.Infrastructure.Implementation.Services;
 using SchoolManagementSystem.Infrastructure.Persistence;
+using System.Security.Cryptography.Xml;
 
 namespace SchoolManagementSystem.Configuration
 {
@@ -14,7 +16,39 @@ namespace SchoolManagementSystem.Configuration
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => 
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                {
+                    Title = "ShcoolSystemManagment",
+                    Version = "v1"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme 
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' followed by your token. Example: Bearer eyJhbGciOi..."
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             //Add connection string
             services.AddDbContext<ApplicationDBContext>(options => 

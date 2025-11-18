@@ -11,5 +11,6 @@ namespace SchoolManagementSystem.Application.Interfaces.Services
     public interface IUserAuthService
     {
         public Task<ServiceResponse> CheckUserExistAsync(LoginDto userLoginDto);
+        public Task<ServiceResponse> RegisterAsync(RegisterDto registerDto);
     }
 }
