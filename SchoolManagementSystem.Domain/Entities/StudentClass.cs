@@ -13,10 +13,8 @@ namespace SchoolManagementSystem.Domain.Entities
 	{
 		[Key]
 		public int Id { get; set; }
-		[ForeignKey("ApplicationUser")]
-		public Guid StudentId { get; set; }
+		public string StudentId { get; set; }
 		public ApplicationUser? ApplicationUser { get; set; }
-		[ForeignKey("Class")]
 		public int ClassId { get; set; }
 		public Class? Class { get; set; }
 		public DateTime EnrollmentDate { get; set; }

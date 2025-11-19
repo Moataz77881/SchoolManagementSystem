@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SchoolManagementSystem.Domain.Entities;
 using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,19 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
         {
         }
 
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<StudentClass> StudentClasses { get; set; }
+        public DbSet<Submission> submissions { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
 
             var adminRoleId = Guid.NewGuid().ToString();
             var teacherRoleId = Guid.NewGuid().ToString();
@@ -27,7 +38,7 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
 
 
             builder.Entity<IdentityRole>().HasData(
-                    new IdentityRole 
+                    new IdentityRole
                     {
                         Id = adminRoleId,
                         Name = "Admin",
@@ -71,6 +82,76 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
                     RoleId = adminRoleId
                 }
             );
+
+            builder.Entity<Class>()
+        .HasOne(c => c.ApplicationUser)
+        .WithMany()
+        .HasForeignKey(c => c.TeacherId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+            // ======= Assignments =======
+            builder.Entity<Assignment>()
+                .HasOne(a => a.ApplicationUser)
+                .WithMany()
+                .HasForeignKey(a => a.CreatedByTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Assignment>()
+                .HasOne(a => a.Class)
+                .WithMany()
+                .HasForeignKey(a => a.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ======= Attendances =======
+            builder.Entity<Attendance>()
+                .HasOne(a => a.Student)
+                .WithMany()
+                .HasForeignKey(a => a.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Attendance>()
+                .HasOne(a => a.Teacher)
+                .WithMany()
+                .HasForeignKey(a => a.MarkedByTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Attendance>()
+                .HasOne(a => a.Class)
+                .WithMany()
+                .HasForeignKey(a => a.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ======= StudentClasses =======
+            builder.Entity<StudentClass>()
+                .HasOne(sc => sc.ApplicationUser)
+                .WithMany()
+                .HasForeignKey(sc => sc.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<StudentClass>()
+                .HasOne(sc => sc.Class)
+                .WithMany()
+                .HasForeignKey(sc => sc.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ======= Submissions =======
+            builder.Entity<Submission>()
+                .HasOne(s => s.Student)
+                .WithMany()
+                .HasForeignKey(s => s.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Submission>()
+                .HasOne(s => s.Teacher)
+                .WithMany()
+                .HasForeignKey(s => s.GradedByTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Submission>()
+                .HasOne(s => s.Assignment)
+                .WithMany()
+                .HasForeignKey(s => s.AssignmentId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

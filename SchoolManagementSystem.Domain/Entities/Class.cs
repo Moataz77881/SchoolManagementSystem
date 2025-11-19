@@ -14,11 +14,9 @@ namespace SchoolManagementSystem.Domain.Entities
 		[Key]
 		public int Id { get; set; }
 		public string Name { get; set; }
-		[ForeignKey("Course")]
-		public int CourseId { get; set; }
+		public int CourseId {	get; set; }
 		public Course? Course { get; set; }
-		[ForeignKey("ApplicationUser")]
-		public int TeacherId { get; set; }
+		public string TeacherId { get; set; }
 		public ApplicationUser? ApplicationUser { get; set; }
 		public int Semester { get; set; }
 		public DateTime EndDate { get; set; }
@@ -27,7 +25,9 @@ namespace SchoolManagementSystem.Domain.Entities
 		public DateTime CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
 
-		public ICollection<StudentClass> StudentClass { get; set; }
+		//public ICollection<StudentClass>? StudentClass { get; set; }
+  //      public ICollection<Attendance>? Attendances { get; set; }
+  //      public ICollection<Assignment>? Assignments { get; set; }
 
-	}
+    }
 }

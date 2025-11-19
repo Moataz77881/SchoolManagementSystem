@@ -15,7 +15,6 @@ namespace SchoolManagementSystem.Domain.Entities
 		public string Name { get; set; }
 		public string code { get; set; }
 		public string? Description { get; set; }
-		[ForeignKey("Department")]
 		public int DepartmentId { get; set; }
 		public Department? Department { get; set; }
 		public int Credits { get; set; }
