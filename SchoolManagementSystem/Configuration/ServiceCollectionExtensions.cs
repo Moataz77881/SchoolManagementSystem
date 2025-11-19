@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SchoolManagementSystem.Application.Interfaces.Repositories;
 using SchoolManagementSystem.Application.Interfaces.Services;
+using SchoolManagementSystem.Application.Interfaces.UOW;
 using SchoolManagementSystem.Domain.Entities.AuthEntities;
+using SchoolManagementSystem.Infrastructure.Implementation.Repositories;
 using SchoolManagementSystem.Infrastructure.Implementation.Services;
+using SchoolManagementSystem.Infrastructure.Implementation.UOW;
 using SchoolManagementSystem.Infrastructure.Persistence;
 using System.Security.Cryptography.Xml;
 
@@ -71,6 +75,16 @@ namespace SchoolManagementSystem.Configuration
 
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IUserAuthService, UserAuthService>();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IStudentClassRepository, StudentClassRepository>();
+            services.AddScoped<ISubmissionRepository, SubmissionRepositroy>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
 
         }
     }

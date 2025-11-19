@@ -84,10 +84,10 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
             );
 
             builder.Entity<Class>()
-        .HasOne(c => c.ApplicationUser)
-        .WithMany()
-        .HasForeignKey(c => c.TeacherId)
-        .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(c => c.ApplicationUser)
+                .WithMany()
+                .HasForeignKey(c => c.TeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // ======= Assignments =======
             builder.Entity<Assignment>()
@@ -151,6 +151,14 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
                 .HasOne(s => s.Assignment)
                 .WithMany()
                 .HasForeignKey(s => s.AssignmentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //=======Departnment========//
+
+            builder.Entity<Department>()
+                .HasOne(x=>x.ApplicationUser)
+                .WithOne()
+                .HasForeignKey<Department>(s => s.HeadOfDepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
         }
