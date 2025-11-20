@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace SchoolManagementSystem.Application.DTOs.DepartmentDTOs
 {
-    public class DepartmentDto
+    public class DepartmentResponseDto
     {
-        public string Name { get; set; }
+		public int Id { get; set; }
+		public string Name { get; set; }
         public string? Description { get; set; }
         public string HeadOfDepartmentName  { get; set; }
-        public DateTime CreatedDare { get; set; }
+        public DateTime CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public List<CourseDto> Courses { get; set; }
+        public List<CourseDto>? Courses { get; set; }
     }
 }

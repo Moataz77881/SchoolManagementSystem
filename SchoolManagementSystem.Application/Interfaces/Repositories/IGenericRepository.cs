@@ -12,9 +12,11 @@ namespace SchoolManagementSystem.Application.Interfaces.Repositories
         Task<T> GetByIdAsync(object id);
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
-        void Update(T entity);
+        Task AddRangeAsync(List<T> entity);
+
+		void Update(T entity);
         void Delete(T entity);
         Task<TResult> GetByIdAsync<TResult>(object id, Expression<Func<T, TResult>> selector);
-        Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector);
+        Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>>? Predecate = null);
     }
 }

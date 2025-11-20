@@ -161,6 +161,10 @@ namespace SchoolManagementSystem.Infrastructure.Persistence
                 .HasForeignKey<Department>(s => s.HeadOfDepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Department>().HasIndex(x => x.Name).IsUnique();
+
+            builder.Entity<Course>().HasIndex(x => x.code).IsUnique();
+
         }
     }
 }

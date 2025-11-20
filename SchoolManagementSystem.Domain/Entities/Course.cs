@@ -20,6 +20,7 @@ namespace SchoolManagementSystem.Domain.Entities
 		public int Credits { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
+		public bool isActive { get; set; } = false;
 
 	}
 }

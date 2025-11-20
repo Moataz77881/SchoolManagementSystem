@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SchoolManagementSystem.Application.Interfaces.Repositories;
@@ -8,6 +9,7 @@ using SchoolManagementSystem.Domain.Entities.AuthEntities;
 using SchoolManagementSystem.Infrastructure.Implementation.Repositories;
 using SchoolManagementSystem.Infrastructure.Implementation.Services;
 using SchoolManagementSystem.Infrastructure.Implementation.UOW;
+using SchoolManagementSystem.Infrastructure.Mapper;
 using SchoolManagementSystem.Infrastructure.Persistence;
 using System.Security.Cryptography.Xml;
 
@@ -60,8 +62,24 @@ namespace SchoolManagementSystem.Configuration
                     configuration.GetConnectionString("SchoolManagementSystemConnection"))
                 );
 
-            //Add identity configuration
-            services.AddIdentity<ApplicationUser,IdentityRole>(options => 
+			//Add Auto mapper configuration
+
+			var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+			});
+
+			var mapperConfig = new MapperConfiguration(cfg =>
+			{
+				cfg.AddProfile(new MappingProfile());
+			}, loggerFactory);
+
+			var mapper = mapperConfig.CreateMapper();
+
+			services.AddSingleton(mapper);
+
+			//Add identity configuration
+			services.AddIdentity<ApplicationUser,IdentityRole>(options => 
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagementSystem.Application.DTOs.DepartmentDTOs;
 using SchoolManagementSystem.Application.Interfaces.Repositories;
 using SchoolManagementSystem.Application.Interfaces.Services;
 using SchoolManagementSystem.Helper;
@@ -10,10 +11,25 @@ namespace SchoolManagementSystem.Controllers
     [ApiController]
     public class DepartmentController(IDepartmentService _departmentService) : ControllerBase
     {
-        [HttpGet("GetAllDepartment")]
+        [HttpGet("department/getAll")]
         public async Task<IActionResult> GetAll() 
         {
             return this.ToActionResult(await _departmentService.GetAllDepartmentServiceAsync());
         }
-    }
+		[HttpPost("department/create")]
+		public async Task<IActionResult> CreateDepartments([FromBody] List<DepartmentCreateRequestDto> departmentDtos)
+		{
+			return this.ToActionResult(await _departmentService.CreateDepartmentsServiceAsync(departmentDtos));
+		}
+		[HttpPut("department/update")]
+		public async Task<IActionResult> UpdateDepartment([FromQuery] int departmentId, [FromBody] DepartmentUpdateRequestDto departmentDto)
+		{
+			return this.ToActionResult(await _departmentService.UpdateDepartmentServiceAsync(departmentId,departmentDto));
+		}
+		[HttpDelete("department/delete")]
+		public async Task<IActionResult> deleteDepartment([FromQuery] int departmentId)
+		{
+			return this.ToActionResult(await _departmentService.DeleteDepartmentServiceAsync(departmentId));
+		}
+	}
 }

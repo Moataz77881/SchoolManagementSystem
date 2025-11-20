@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagementSystem.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using SchoolManagementSystem.Infrastructure.Persistence;
 namespace SchoolManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20251120114641_CorrectTheNameOfProperty")]
+    partial class CorrectTheNameOfProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d62f163b-bc67-4733-ae64-d2c04764ce73",
+                            Id = "92a69b8d-d9cd-4bda-b676-d372cbe3494c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1bf639da-9979-4c55-aaee-f7f8048016a8",
+                            Id = "b065c706-6b33-4a54-990f-08eb0bb727ae",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
-                            Id = "3175d40f-bea7-4924-beb4-4962878ed9aa",
+                            Id = "dec46d68-d7a6-436d-8166-401dbe9904d4",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });
@@ -158,8 +161,8 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "4914b534-4c0e-4de8-9635-184dffe58c67",
-                            RoleId = "d62f163b-bc67-4733-ae64-d2c04764ce73"
+                            UserId = "5ce2563c-195b-4f98-90e5-ee5762a271dd",
+                            RoleId = "92a69b8d-d9cd-4bda-b676-d372cbe3494c"
                         });
                 });
 
@@ -281,9 +284,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -339,20 +339,19 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4914b534-4c0e-4de8-9635-184dffe58c67",
+                            Id = "5ce2563c-195b-4f98-90e5-ee5762a271dd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3cf13a09-cb67-4e11-aaad-0c75e8807d62",
-                            CreateDate = new DateTime(2025, 11, 20, 16, 20, 39, 252, DateTimeKind.Local).AddTicks(9252),
+                            ConcurrencyStamp = "d69a3150-6065-48e6-b504-782a7217e2bf",
+                            CreateDate = new DateTime(2025, 11, 20, 13, 46, 37, 746, DateTimeKind.Local).AddTicks(856),
                             Email = "admin@test.com",
                             EmailConfirmed = false,
-                            IsActive = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOplA5ll+pJ/KkeZ6yvqzhdaGkzqXNna1Eg6DQO1N0slKKtxAmKdwtzGvoUab2EsWg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHCO2a1+I48VXfK1x3M9XFps9L4pKM6RjsAibAmRctNEaOj9TXNYc3/695QgUV1HIA==",
                             PhoneNumberConfirmed = false,
                             RoleName = "admin",
-                            SecurityStamp = "243420aa-93e0-4207-a511-465da6d48c01",
+                            SecurityStamp = "1da6c7f5-d4b5-4ba8-a6c1-adb2eba86360",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -433,17 +432,11 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
 
                     b.Property<string>("code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("code")
-                        .IsUnique();
 
                     b.ToTable("Courses");
                 });
@@ -468,7 +461,7 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -476,9 +469,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("HeadOfDepartmentId")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Departments");

@@ -12,5 +12,9 @@ namespace SchoolManagementSystem.Application.Interfaces.Services
     public interface IDepartmentService
     {
         public Task<ServiceResponse> GetAllDepartmentServiceAsync();
-    }
+        public Task<ServiceResponse> CreateDepartmentsServiceAsync(List<DepartmentCreateRequestDto> departmentDto);
+        public Task<ServiceResponse> UpdateDepartmentServiceAsync(int DepartmentId, DepartmentUpdateRequestDto departmentDto);
+        public Task<ServiceResponse> DeleteDepartmentServiceAsync(int DepartmentId);
+
+	}
 }

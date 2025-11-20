@@ -35,7 +35,12 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
             await _dbSet.AddAsync(entity);
         }
 
-        public void Update(T entity)
+		public async Task AddRangeAsync(List<T> entity)
+		{
+			await _dbSet.AddRangeAsync(entity);
+		}
+
+		public void Update(T entity)
         {
             _dbSet.Update(entity);
         }
@@ -57,11 +62,18 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
                 .FirstOrDefault()!;
         }
 
-        public async Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector)
+        public async Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>>? Predecate = null)
         {
+            if(Predecate is not null)
+                 return await _dbSet
+                    .Where(Predecate)
+                    .Select(selector)
+                    .ToListAsync();
+
             return await _dbSet
-                .Select(selector)
-                .ToListAsync();
-        }
+					.Select(selector)
+					.ToListAsync();
+
+		}
     }
 }

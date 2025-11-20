@@ -11,7 +11,8 @@ namespace SchoolManagementSystem.Application.DTOs.CourseDTOs
         public string Name { get; set; }
         public string code { get; set; }
         public int Credits { get; set; }
-        public DateTime CreatedDate { get; set; }
+		public string? DepartmentName { get; set; }
+		public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }
 }
