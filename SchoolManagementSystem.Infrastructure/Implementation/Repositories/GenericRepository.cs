@@ -29,6 +29,10 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
         {
             return await _dbSet.ToListAsync();
         }
+        public async Task<List<T>> GetAllWithFilterAsync(Expression<Func<T,bool>> Predecate)
+        {
+            return await _dbSet.Where(Predecate).ToListAsync();
+        }
 
         public async Task AddAsync(T entity)
         {
@@ -75,5 +79,37 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
 					.ToListAsync();
 
 		}
+        public async Task<IEnumerable<TResult>> GetAllWithSelectorAndPaginationAsync<TResult>(
+            Expression<Func<T, TResult>> selector,
+            int pageNumber,
+            int pageSize,
+            Expression<Func<T, bool>>? Predecate = null
+            )
+        {
+            IQueryable<T> query = _dbSet;
+
+            // Apply predicate
+            if (Predecate is not null)
+                query = query.Where(Predecate);
+
+            // Apply select
+            var selectedQuery = query.Select(selector);
+
+            // Apply pagination
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                selectedQuery = selectedQuery
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
+            return await selectedQuery.ToListAsync();
+
+        }
+
+        //public async Task softDeleteAsync(Expression<Func<T, bool>> Predecate, Func<T, bool> propertyToSet)
+        //{
+        //    await _dbSet.Where(Predecate).ExecuteUpdateAsync(s => s.SetProperty(x => propertyToSet, _ => true));
+        //}
     }
 }

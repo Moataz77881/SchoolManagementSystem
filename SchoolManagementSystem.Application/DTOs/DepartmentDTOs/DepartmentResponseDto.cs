@@ -16,6 +16,6 @@ namespace SchoolManagementSystem.Application.DTOs.DepartmentDTOs
         public string HeadOfDepartmentName  { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public List<CourseDto>? Courses { get; set; }
+        public List<CourseResponseDto>? Courses { get; set; }
     }
 }

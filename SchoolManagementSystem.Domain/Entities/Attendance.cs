@@ -17,11 +17,10 @@ namespace SchoolManagementSystem.Domain.Entities
         public Class? Class { get; set; }
         public string StudentId { get; set; }
         public ApplicationUser? Student { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; } 
         public string Status { get; set; }
         public string MarkedByTeacherId { get; set; }
         public ApplicationUser? Teacher { get; set; }
-        public DateTime CreateDate { get; set; } = DateTime.Now;
-
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -94,7 +94,7 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Services
 					HeadOfDepartmentName = d.ApplicationUser!.UserName!,
 					UpdateDate = d.UpdateDate,
 					Courses = d.Courses!.Select(
-						c => new CourseDto
+						c => new CourseResponseDto
 						{
 							code = c.code,
 							CreatedDate = c.CreatedDate,

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SchoolManagementSystem.Application.Interfaces.Repositories;
 using SchoolManagementSystem.Application.Interfaces.Services;
@@ -12,6 +14,7 @@ using SchoolManagementSystem.Infrastructure.Implementation.UOW;
 using SchoolManagementSystem.Infrastructure.Mapper;
 using SchoolManagementSystem.Infrastructure.Persistence;
 using System.Security.Cryptography.Xml;
+using System.Text;
 
 namespace SchoolManagementSystem.Configuration
 {
@@ -56,6 +59,22 @@ namespace SchoolManagementSystem.Configuration
                 });
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                    };
+                });
+
             //Add connection string
             services.AddDbContext<ApplicationDBContext>(options => 
                 options.UseSqlServer(
@@ -91,6 +110,8 @@ namespace SchoolManagementSystem.Configuration
                 .AddEntityFrameworkStores<ApplicationDBContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddHttpContextAccessor();
+
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
@@ -103,6 +124,9 @@ namespace SchoolManagementSystem.Configuration
             services.AddScoped<ISubmissionRepository, SubmissionRepositroy>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
 
         }
     }

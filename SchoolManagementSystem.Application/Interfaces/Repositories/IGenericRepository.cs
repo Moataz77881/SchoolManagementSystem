@@ -18,5 +18,14 @@ namespace SchoolManagementSystem.Application.Interfaces.Repositories
         void Delete(T entity);
         Task<TResult> GetByIdAsync<TResult>(object id, Expression<Func<T, TResult>> selector);
         Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>>? Predecate = null);
+        Task<IEnumerable<TResult>> GetAllWithSelectorAndPaginationAsync<TResult>(
+            Expression<Func<T, TResult>> selector,
+            int pageNumber,
+            int pageSize,
+            Expression<Func<T, bool>>? Predecate = null
+            );
+
+        Task<List<T>> GetAllWithFilterAsync(Expression<Func<T, bool>> Predecate);
+        //Task softDeleteAsync(Expression<Func<T, bool>> Predecate, Func<T, bool> propertyToSet);
     }
 }

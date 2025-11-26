@@ -9,5 +9,6 @@ namespace SchoolManagementSystem.Application.Interfaces.Repositories
 {
     public interface IClassRepository : IGenericRepository<Class>
     {
+        Task Deactivate(List<int> ids);
     }
 }

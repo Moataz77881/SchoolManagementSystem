@@ -9,5 +9,6 @@ namespace SchoolManagementSystem.Application.Interfaces.Repositories
 {
     public interface ICourseRepository : IGenericRepository<Course>
     {
+        Task SoftDelete(List<int> Coursesid);
     }
 }

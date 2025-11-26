@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using SchoolManagementSystem.Application.DTOs.AttendanceDTOs;
+using SchoolManagementSystem.Application.DTOs.ClassDto;
+using SchoolManagementSystem.Application.DTOs.CourseDTOs;
 using SchoolManagementSystem.Application.DTOs.DepartmentDTOs;
 using SchoolManagementSystem.Domain.Entities;
 using System;
@@ -16,6 +19,9 @@ namespace SchoolManagementSystem.Infrastructure.Mapper
 			CreateMap<DepartmentResponseDto, Department>().ReverseMap();
 			CreateMap<DepartmentUpdateRequestDto, Department>().ReverseMap();
 			CreateMap<DepartmentCreateRequestDto, Department>().ReverseMap();
+			CreateMap<Course, CourseRequestDto>().ReverseMap();
+			CreateMap<Class, ClassRequestDto>().ReverseMap();
+			CreateMap<Attendance, AttendanceRequestDto>().ReverseMap();
 
 		}
 	}
