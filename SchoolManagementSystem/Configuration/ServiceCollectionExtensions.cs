@@ -20,20 +20,20 @@ namespace SchoolManagementSystem.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration) 
+        public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c => 
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo 
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "ShcoolSystemManagment",
                     Version = "v1"
                 });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
@@ -59,59 +59,66 @@ namespace SchoolManagementSystem.Configuration
                 });
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = false,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = configuration["Jwt:Issuer"],
                         ValidAudience = configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                            Encoding.UTF8.GetBytes(configuration["Jwt:Key"])
+                        )
                     };
                 });
 
             //Add connection string
-            services.AddDbContext<ApplicationDBContext>(options => 
+            services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("SchoolManagementSystemConnection"))
                 );
 
-			//Add Auto mapper configuration
+            //Add Auto mapper configuration
 
-			var loggerFactory = LoggerFactory.Create(builder =>
-			{
-				builder.AddConsole();
-			});
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
 
-			var mapperConfig = new MapperConfiguration(cfg =>
-			{
-				cfg.AddProfile(new MappingProfile());
-			}, loggerFactory);
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile());
+            }, loggerFactory);
 
-			var mapper = mapperConfig.CreateMapper();
+            var mapper = mapperConfig.CreateMapper();
 
-			services.AddSingleton(mapper);
+            services.AddSingleton(mapper);
 
-			//Add identity configuration
-			services.AddIdentity<ApplicationUser,IdentityRole>(options => 
+            //Add identity configuration
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;   
-                options.Password.RequireNonAlphanumeric = true; 
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredUniqueChars = 1;
             })
                 .AddEntityFrameworkStores<ApplicationDBContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddHttpContextAccessor();
 
+            services.AddHttpContextAccessor();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IUserAuthService, UserAuthService>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
@@ -127,6 +134,9 @@ namespace SchoolManagementSystem.Configuration
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IAssingmentService, AssignmentService>();
+
+            services.AddScoped<IStudentClassService, StudentClassService>();
 
         }
     }

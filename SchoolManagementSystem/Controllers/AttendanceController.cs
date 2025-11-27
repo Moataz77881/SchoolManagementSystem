@@ -8,9 +8,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
-    [Authorize(Roles = "Teacher")]
+    [Route("api/[controller]")]
     public class AttendanceController: ControllerBase
     {
         private readonly IAttendanceService _attendanceService;
@@ -19,12 +19,14 @@ namespace SchoolManagementSystem.Controllers
         {
             _attendanceService = attendanceService;
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Teacher,Student")]
         [HttpGet("getbyclassid")]
         public async Task<IActionResult> getAll([FromQuery][Required] int classId) 
         {
             return this.ToActionResult(await _attendanceService.GetAllAttendanceServiceAsync(classId));
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Teacher")]
         [HttpPost("markattendace")]
         public async Task<IActionResult> MarkAttendace([FromBody] List<AttendanceRequestDto> attendanceRequestDto)
         {

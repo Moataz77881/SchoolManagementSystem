@@ -26,6 +26,7 @@ namespace SchoolManagementSystem.Application.Interfaces.Repositories
             );
 
         Task<List<T>> GetAllWithFilterAsync(Expression<Func<T, bool>> Predecate);
+        Task<T> GetByIdFirstOrDefaultAsync(Expression<Func<T, bool>> Predecate);
         //Task softDeleteAsync(Expression<Func<T, bool>> Predecate, Func<T, bool> propertyToSet);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SchoolManagementSystem.Application.DTOs.AssignmentDTOs;
 using SchoolManagementSystem.Application.DTOs.AttendanceDTOs;
 using SchoolManagementSystem.Application.DTOs.ClassDto;
 using SchoolManagementSystem.Application.DTOs.CourseDTOs;
@@ -22,7 +23,7 @@ namespace SchoolManagementSystem.Infrastructure.Mapper
 			CreateMap<Course, CourseRequestDto>().ReverseMap();
 			CreateMap<Class, ClassRequestDto>().ReverseMap();
 			CreateMap<Attendance, AttendanceRequestDto>().ReverseMap();
-
+			CreateMap<AssignmentRequestDto, Assignment>().ReverseMap();
 		}
 	}
 }

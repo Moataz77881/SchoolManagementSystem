@@ -10,6 +10,7 @@ using SchoolManagementSystem.Infrastructure.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,32 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Services
     {
         public async Task<ServiceResponse> GetAllAttendanceServiceAsync(int classId)
         {
-            var attendance = await _unitOfWork.AttendanceRepository.GetAllWithSelectorAsync(
-                Predecate: x => x.ClassId == classId,
+            IEnumerable<AttendanceResponseDto> attendance = new List<AttendanceResponseDto>();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            var userRole = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role)!.Value;
+            if (userRole == "Student") 
+            {
+                 attendance = await _unitOfWork.AttendanceRepository.GetAllWithSelectorAsync(
+                Predecate: x => x.ClassId == classId && x.StudentId == userId,
+                selector: x => new AttendanceResponseDto
+                {
+                    ClassId = x.ClassId,
+                    CreateDate = x.CreateDate,
+                    Date = x.Date,
+                    Status = x.Status,
+                    StudentName = x.Student!.UserName!,
+                    TeacherName = x.Teacher!.UserName!
+                });
+                return new ServiceResponse
+                {
+                    Data = attendance,
+                    Message = "Data was Received successfully",
+                    StatusCode = 200,
+                    Success = true
+                };
+            }
+             attendance = await _unitOfWork.AttendanceRepository.GetAllWithSelectorAsync(
+                Predecate: x => x.ClassId == classId && x.MarkedByTeacherId == userId,
                 selector: x => new AttendanceResponseDto
                 {
                     ClassId = x.ClassId,

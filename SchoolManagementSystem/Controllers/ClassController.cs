@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Application.DTOs.ClassDto;
 using SchoolManagementSystem.Application.Interfaces.Services;
@@ -6,6 +7,7 @@ using SchoolManagementSystem.Helper;
 
 namespace SchoolManagementSystem.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer",Roles ="Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClassController(IClassService _classService) : ControllerBase

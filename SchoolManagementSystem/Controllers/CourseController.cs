@@ -8,9 +8,10 @@ using SchoolManagementSystem.Helper;
 
 namespace SchoolManagementSystem.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CourseController(ICourseService _courseService) : ControllerBase
     {
         [HttpGet("getall")]

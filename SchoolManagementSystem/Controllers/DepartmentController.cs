@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Application.DTOs.DepartmentDTOs;
 using SchoolManagementSystem.Application.Interfaces.Repositories;
@@ -7,6 +8,7 @@ using SchoolManagementSystem.Helper;
 
 namespace SchoolManagementSystem.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController(IDepartmentService _departmentService) : ControllerBase

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.Application.DTOs.AuthDTOs;
 using SchoolManagementSystem.Application.Interfaces.Services;
@@ -16,6 +17,7 @@ namespace SchoolManagementSystem.Controllers
             return this.ToActionResult(await _userAuthService.CheckUserExistAsync(loginDto));
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {

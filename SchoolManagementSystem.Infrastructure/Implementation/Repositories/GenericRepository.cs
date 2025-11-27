@@ -24,6 +24,10 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
+        public async Task<T> GetByIdFirstOrDefaultAsync(Expression<Func<T, bool>> Predecate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(Predecate);
+        }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
