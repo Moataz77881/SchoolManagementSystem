@@ -135,8 +135,8 @@ namespace SchoolManagementSystem.Configuration
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IAssingmentService, AssignmentService>();
-
             services.AddScoped<IStudentClassService, StudentClassService>();
+            services.AddScoped<ISubmissionService, SubmissionService>();
 
         }
     }

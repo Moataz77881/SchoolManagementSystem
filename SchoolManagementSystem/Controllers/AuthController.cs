@@ -17,6 +17,7 @@ namespace SchoolManagementSystem.Controllers
             return this.ToActionResult(await _userAuthService.CheckUserExistAsync(loginDto));
         }
 
+        [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)

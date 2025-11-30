@@ -33,7 +33,7 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
         {
             return await _dbSet.ToListAsync();
         }
-        public async Task<List<T>> GetAllWithFilterAsync(Expression<Func<T,bool>> Predecate)
+        public async Task<List<T>> GetAllWithFilterAsync(Expression<Func<T, bool>> Predecate)
         {
             return await _dbSet.Where(Predecate).ToListAsync();
         }
@@ -43,12 +43,12 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
             await _dbSet.AddAsync(entity);
         }
 
-		public async Task AddRangeAsync(List<T> entity)
-		{
-			await _dbSet.AddRangeAsync(entity);
-		}
+        public async Task AddRangeAsync(List<T> entity)
+        {
+            await _dbSet.AddRangeAsync(entity);
+        }
 
-		public void Update(T entity)
+        public void Update(T entity)
         {
             _dbSet.Update(entity);
         }
@@ -63,7 +63,7 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
             var entity = await _dbSet.FindAsync(id);
             if (entity == null) return default;
 
-            
+
             return _dbSet
                 .Where(e => e == entity)
                 .Select(selector)
@@ -72,17 +72,27 @@ namespace SchoolManagementSystem.Infrastructure.Implementation.Repositories
 
         public async Task<IEnumerable<TResult>> GetAllWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>>? Predecate = null)
         {
-            if(Predecate is not null)
-                 return await _dbSet
-                    .Where(Predecate)
+            if (Predecate is not null)
+                return await _dbSet
+                   .Where(Predecate)
+                   .Select(selector)
+                   .ToListAsync();
+
+            return await _dbSet
                     .Select(selector)
                     .ToListAsync();
 
-            return await _dbSet
-					.Select(selector)
-					.ToListAsync();
+        }
 
-		}
+        public async Task<TResult?> FirstOrDefaultWithSelectorAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> Predecate)
+        {
+            return await _dbSet
+               .Where(Predecate)
+               .Select(selector)
+               .FirstOrDefaultAsync();
+
+
+        }
         public async Task<IEnumerable<TResult>> GetAllWithSelectorAndPaginationAsync<TResult>(
             Expression<Func<T, TResult>> selector,
             int pageNumber,

@@ -12,22 +12,29 @@ namespace SchoolManagementSystem.Controllers
     [ApiController]
     public class ClassController(IClassService _classService) : ControllerBase
     {
+
+        [AllowAnonymous]
         [HttpGet("getAll")]
         public async Task<IActionResult> Get([FromQuery] int pageNumber, [FromQuery] int PageSize) 
         {
             return this.ToActionResult(await _classService.GetAllClassesServiceAsync(pageNumber, PageSize));
         }
+
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] List<ClassRequestDto> classRequestDtos) 
         {
             return this.ToActionResult(await _classService.CreateClassesServiceAsync(classRequestDtos));
         }
 
+        [AllowAnonymous]
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromQuery] int classId,[FromBody] ClassUpdateRequestDtos classRequestDtos)
         {
             return this.ToActionResult(await _classService.UpdateClassesServiceAsync(classId,classRequestDtos));
         }
+
+        [AllowAnonymous]
         [HttpPut("deactivate")]
         public async Task<IActionResult> Deactivate([FromBody] List<int> classesId)
         {

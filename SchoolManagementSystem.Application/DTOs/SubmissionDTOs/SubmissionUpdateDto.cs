@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace SchoolManagementSystem.Application.DTOs.SubmissionDTOs
 {
-    public class SubmissionRequestDto
+    public class SubmissionUpdateDto
     {
-        public int AssignmentId { get; set; }
-        public IFormFile FileUrl { get; set; }
-
+        public float? Grade { get; set; }
+        public string? Remarkes { get; set; }
+        [JsonIgnore]
+        public string? GradedByTeacherId { get; set; }
     }
 }

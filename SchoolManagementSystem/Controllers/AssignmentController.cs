@@ -13,12 +13,15 @@ namespace SchoolManagementSystem.Controllers
     [ApiController]
     public class AssignmentController(IAssingmentService _assingmentService) : ControllerBase
     {
+
+        [AllowAnonymous]
         [HttpGet("getallassignmentbyclassid")]
         public async Task<IActionResult> getAllWithClassId([FromQuery] int pageNumber, [FromQuery] int pageSize) 
         {
             return this.ToActionResult(await _assingmentService.GetAssignmentsByClassIdServiceAsync(pageNumber,pageSize));
         }
 
+        [AllowAnonymous]
         [HttpPost("createnewassignment")]
         public async Task<IActionResult> CreateNewAssignment([FromBody] List<AssignmentRequestDto> assignmentRequestDto)
         {

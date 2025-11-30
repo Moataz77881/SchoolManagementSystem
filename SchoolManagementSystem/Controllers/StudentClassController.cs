@@ -13,12 +13,15 @@ namespace SchoolManagementSystem.Controllers
     [ApiController]
     public class StudentClassController(IStudentClassService _studentClassService) : ControllerBase
     {
+
+        [AllowAnonymous]
         [HttpGet("ViewClasses")]
         public async Task<IActionResult> ViewAll() 
         {
             return this.ToActionResult(await _studentClassService.ViewEnrolledStudentClassServiceAsync());
         }
-        
+
+        [AllowAnonymous]
         [HttpPost("AssignStudentToClass")]
         public async Task<IActionResult> AssignStudentInClass(List<StudentClassRequestDto> studentClassRequestDtos)
         {

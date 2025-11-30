@@ -19,6 +19,8 @@ namespace SchoolManagementSystem.Controllers
         {
             _attendanceService = attendanceService;
         }
+
+        [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Teacher,Student")]
         [HttpGet("getbyclassid")]
         public async Task<IActionResult> getAll([FromQuery][Required] int classId) 
@@ -26,6 +28,7 @@ namespace SchoolManagementSystem.Controllers
             return this.ToActionResult(await _attendanceService.GetAllAttendanceServiceAsync(classId));
         }
 
+        [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Teacher")]
         [HttpPost("markattendace")]
         public async Task<IActionResult> MarkAttendace([FromBody] List<AttendanceRequestDto> attendanceRequestDto)

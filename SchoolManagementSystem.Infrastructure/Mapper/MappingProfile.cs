@@ -4,6 +4,7 @@ using SchoolManagementSystem.Application.DTOs.AttendanceDTOs;
 using SchoolManagementSystem.Application.DTOs.ClassDto;
 using SchoolManagementSystem.Application.DTOs.CourseDTOs;
 using SchoolManagementSystem.Application.DTOs.DepartmentDTOs;
+using SchoolManagementSystem.Application.DTOs.SubmissionDTOs;
 using SchoolManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace SchoolManagementSystem.Infrastructure.Mapper
 			CreateMap<Class, ClassRequestDto>().ReverseMap();
 			CreateMap<Attendance, AttendanceRequestDto>().ReverseMap();
 			CreateMap<AssignmentRequestDto, Assignment>().ReverseMap();
+			CreateMap<Submission, SubmissionRequestDto>().ReverseMap();
 		}
 	}
 }

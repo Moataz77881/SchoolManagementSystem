@@ -13,22 +13,30 @@ namespace SchoolManagementSystem.Controllers
     [ApiController]
     public class DepartmentController(IDepartmentService _departmentService) : ControllerBase
     {
+
+        [AllowAnonymous]
         [HttpGet("department/getAll")]
         public async Task<IActionResult> GetAll() 
         {
             return this.ToActionResult(await _departmentService.GetAllDepartmentServiceAsync());
         }
-		[HttpPost("department/create")]
+
+        [AllowAnonymous]
+        [HttpPost("department/create")]
 		public async Task<IActionResult> CreateDepartments([FromBody] List<DepartmentCreateRequestDto> departmentDtos)
 		{
 			return this.ToActionResult(await _departmentService.CreateDepartmentsServiceAsync(departmentDtos));
 		}
-		[HttpPut("department/update")]
+
+        [AllowAnonymous]
+        [HttpPut("department/update")]
 		public async Task<IActionResult> UpdateDepartment([FromQuery] int departmentId, [FromBody] DepartmentUpdateRequestDto departmentDto)
 		{
 			return this.ToActionResult(await _departmentService.UpdateDepartmentServiceAsync(departmentId,departmentDto));
 		}
-		[HttpDelete("department/delete")]
+
+        [AllowAnonymous]
+        [HttpDelete("department/delete")]
 		public async Task<IActionResult> deleteDepartment([FromQuery] int departmentId)
 		{
 			return this.ToActionResult(await _departmentService.DeleteDepartmentServiceAsync(departmentId));

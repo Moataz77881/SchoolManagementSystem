@@ -14,22 +14,29 @@ namespace SchoolManagementSystem.Controllers
     //[Authorize(Roles = "Admin")]
     public class CourseController(ICourseService _courseService) : ControllerBase
     {
+
+        [AllowAnonymous]
         [HttpGet("getall")]
         public async Task<IActionResult> GetAllCourses([FromQuery] string? courseCode) 
         {
             return this.ToActionResult(await _courseService.getAllCourseServiceAsync(courseCode));
         }
+
+        [AllowAnonymous]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateCourse([FromBody] List<CourseRequestDto> courseRequestDto)
         {
             return this.ToActionResult(await _courseService.CreateCourseServiceAsync(courseRequestDto));
         }
+
+        [AllowAnonymous]
         [HttpPut("Update")]
         public async Task<IActionResult> UpdaetCourse([FromQuery] int courseId, [FromBody] CourseUpdateRequestDto courseUpdateRequestDto) 
         {
             return this.ToActionResult(await _courseService.UpdateCourseServiceAsync(courseId, courseUpdateRequestDto));
         }
 
+        [AllowAnonymous]
         [HttpPut("Delete")]
         public async Task<IActionResult> SoftDeleteCourse([FromBody] List<int> coursesId)
         {
